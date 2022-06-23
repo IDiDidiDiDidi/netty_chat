@@ -34,6 +34,7 @@ public class WebSocketServer {
         mainGroup = new NioEventLoopGroup();
         subGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
+        // 两个group 分别为Boss 负责Accept事件，Worker 负责读写事件
         server.group(mainGroup, subGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new WSServerInitialzer());
