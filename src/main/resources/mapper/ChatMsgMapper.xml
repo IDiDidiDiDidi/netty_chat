@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liudi.nettychat.mapper.ChatMsgMapper">
+    <resultMap id="BaseResultMap" type="com.liudi.nettychat.entity.ChatMsg" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="send_user_id" property="sendUserId" jdbcType="VARCHAR" />
+        <result column="accept_user_id" property="acceptUserId" jdbcType="VARCHAR" />
+        <result column="msg" property="msg" jdbcType="VARCHAR" />
+        <result column="sign_flag" property="signFlag" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, send_user_id, accept_user_id, msg, sign_flag, create_time
+    </sql>
 
     <update id="batchUpdateMsgSigned">
         update chat_msg set sign_flag =1 where id in
@@ -8,4 +20,11 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="getUnReadMsgListByAcceptUid" resultType="com.liudi.nettychat.entity.ChatMsg">
+        select
+        <include refid="Base_Column_List" />
+        from chat_msg
+        where accept_user_id = #{acceptUserId,jdbcType=VARCHAR} and sign_flag=0
+    </select>
 </mapper>

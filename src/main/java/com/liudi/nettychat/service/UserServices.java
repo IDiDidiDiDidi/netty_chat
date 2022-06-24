@@ -21,4 +21,6 @@ public interface UserServices {
     Message registerOrLogin(UserDto dto);
 
     List<MyFriendsVO> queryMyFriends(String userId);
+
+    List<com.liudi.nettychat.entity.ChatMsg> getUnReadMsgList(String acceptUserId);
 }

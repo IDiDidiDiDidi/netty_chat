@@ -95,6 +95,12 @@ public class UserServicesImpl extends ServiceImpl<UserMapper, User> implements U
         return userMapperCustom.queryMyFriends(userId);
     }
 
+    @Override
+    public List<com.liudi.nettychat.entity.ChatMsg> getUnReadMsgList(String acceptUserId) {
+        List<com.liudi.nettychat.entity.ChatMsg> result = chatMsgMapper.getUnReadMsgListByAcceptUid(acceptUserId);
+        return result;
+    }
+
     /**
      * 走到这一步账号肯定不存在重复情况，无需再进行判断账号是否重复
      * @param dto UserDto

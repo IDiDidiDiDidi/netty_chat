@@ -7,6 +7,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -40,6 +41,15 @@ public class WSServerInitialzer extends ChannelInitializer<SocketChannel> {
 
         // 自定义的handler
         pipeline.addLast(new ChatHandler());
+        //=======================================增加心跳支持=====================================================================================
 
+        /**
+         * 针对客户端，如果在1分钟时间内，没有向服务端发送心跳（all），则主动断开连接
+         * 如果有读写空闲，则不做任何操作
+         */
+        pipeline.addLast(new IdleStateHandler(8, 10, 12));
+
+        // 自定义空闲监测 handler
+        pipeline.addLast(new HeartBeatHandler());
     }
 }

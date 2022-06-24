@@ -22,4 +22,5 @@ public interface ChatMsgMapper extends BaseMapper<ChatMsg> {
     void batchUpdateMsgSigned(@Param("list") List<String> list);
 
 
+    List<ChatMsg> getUnReadMsgListByAcceptUid(String acceptUserId);
 }
